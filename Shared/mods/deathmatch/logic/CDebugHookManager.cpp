@@ -660,7 +660,13 @@ bool CDebugHookManager::CallHook(const char* szName, const std::vector<SDebugHoo
             if (returnedValue->GetType() == LUA_TSTRING)
             {
                 if (returnedValue->GetString() == "skip")
-                    bSkip = true;
+                    #ifdef MTA_CLIENT
+                        if (szName != "addDebugHook") {
+                            bSkip = true;
+                        }
+                    #else
+                        bSkip = true;
+                    #endif
             }
         }
 
